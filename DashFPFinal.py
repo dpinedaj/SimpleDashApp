@@ -167,11 +167,14 @@ table_header = [
     html.Thead(html.Tr([html.Th("Metric"), html.Th("Value")]))
 ]
 
-table_body = [html.Tbody(
-    [html.Tr([html.Td(metric.upper()), html.Td(round(value, 2))]) for metric, value in zip(
-        metricas.metric.values, metricas['values'].values)]
+table_body = [html.Tbody([
+    html.Tr([html.Th('R2 Score'), html.Th(metrics['r2'])]),
+    html.Tr([html.Th('RMSE'), html.Th(metrics['rmse'])])
+]
 )]
 
+# [html.Tr([html.Td(metric.upper()), html.Td(round(value, 2))]) for metric, value in zip(
+#       metricas.metric.values, metricas['values'].values)]
 
 r1column_3 = [
     dbc.Table(table_header + table_body, bordered=True,
@@ -197,7 +200,7 @@ r1column_4 = [
                      with daily data, applying an arimax model with the datetime series and the 
                      value of the stock price.
                   """
-                  ],
+                ],
 
                 style={'color': 'black', 'marginLeft': 5, 'marginTop': 15}
 
