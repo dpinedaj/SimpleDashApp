@@ -173,9 +173,9 @@ table_body = [html.Tbody([
     html.Tr([html.Th('RMSE'), html.Th(
         round(metricas.loc[metricas.metric == 'rmse', 'values'].values[0], 2))]),
     html.Tr([html.Th('Max'), html.Th(
-        round(dfsinpicos.precio_bolsa_nacional.max(), 2))]),
+        str(round(dfsinpicos.precio_bolsa_nacional.max(), 2)) +' COP/KWh') ]),
     html.Tr([html.Th('Min'), html.Th(
-        round(dfsinpicos.precio_bolsa_nacional.min(), 2))])
+        str(round(dfsinpicos.precio_bolsa_nacional.min(), 2)) +' COP/KWh') ])
 
 ]
 )]
@@ -184,7 +184,7 @@ table_body = [html.Tbody([
 #       metricas.metric.values, metricas['values'].values)]
 
 cuadro_Issue = html.Div(html.P(
-    [f'We found a Issue at {str(df.loc[df.precio_bolsa_nacional ==df.precio_bolsa_nacional.max(),"date"].values[0])[0:10]} with a value of {round(df.precio_bolsa_nacional.max(),2)} COP/KWH']
+    [f'We found a Issue at {str(df.loc[df.precio_bolsa_nacional ==df.precio_bolsa_nacional.max(),"date"].values[0])[0:10]} with a value of {round(df.precio_bolsa_nacional.max(),2)} COP/KWh']
 ),
     style={'height': 100})
 
