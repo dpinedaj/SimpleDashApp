@@ -184,7 +184,7 @@ table_body = [html.Tbody([
 #       metricas.metric.values, metricas['values'].values)]
 
 cuadro_Issue = html.Div(html.P(
-    [f'We found a Issue at {df.loc[df.precio_bolsa_nacional ==df.precio_bolsa_nacional.max(),"date"]} with a value of {round(df.precio_bolsa_nacional.max(),2)}']
+    [f'We found a Issue at {df.loc[df.precio_bolsa_nacional ==df.precio_bolsa_nacional.max(),"date"].values[0]} with a value of {round(df.precio_bolsa_nacional.max(),2)}']
 ),
     style={'height': 100})
 
