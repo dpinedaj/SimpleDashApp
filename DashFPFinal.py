@@ -168,8 +168,8 @@ table_header = [
 ]
 
 table_body = [html.Tbody([
-    html.Tr([html.Th('R2 Score'), html.Th(metrics['r2'])]),
-    html.Tr([html.Th('RMSE'), html.Th(metrics['rmse'])])
+    html.Tr([html.Th('R2 Score'), html.Th(round(metricas.loc[metricas.metric=='r2','values'].values[0],2))]),
+    html.Tr([html.Th('RMSE'), html.Th(round(metricas.loc[metricas.metric=='rmse','values'].values[0],2))])
 ]
 )]
 
