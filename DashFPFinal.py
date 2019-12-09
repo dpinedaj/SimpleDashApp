@@ -150,7 +150,7 @@ r1column_1 = [
 
 r1column_2 = [
     dbc.Card([
-        html.H4("Price [$COP/KWH]", style={'textAlign': 'center'}),
+        html.H4("Price [COP/KWH]", style={'textAlign': 'center'}),
         html.Hr(style={'background-color': '#ffffff'}),
         html.P(children='Real Value', style={'marginLeft': 20}),
         html.P(id='RealValue', children='', style={'marginLeft': 20}),
