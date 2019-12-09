@@ -168,13 +168,25 @@ table_header = [
 ]
 
 table_body = [html.Tbody([
-    html.Tr([html.Th('R2 Score'), html.Th(round(metricas.loc[metricas.metric=='r2','values'].values[0],2))]),
-    html.Tr([html.Th('RMSE'), html.Th(round(metricas.loc[metricas.metric=='rmse','values'].values[0],2))])
+    html.Tr([html.Th('R2 Score'), html.Th(
+        round(metricas.loc[metricas.metric == 'r2', 'values'].values[0], 2))]),
+    html.Tr([html.Th('RMSE'), html.Th(
+        round(metricas.loc[metricas.metric == 'rmse', 'values'].values[0], 2))]),
+    html.Tr([html.Th('Max'), html.Th(
+        round(dfsinpicos.precio_bolsa_nacional.max(), 2))]),
+    html.Tr([html.Th('Min'), html.Th(
+        round(dfsinpicos.precio_bolsa_nacional.min(), 2))])
+
 ]
 )]
 
 # [html.Tr([html.Td(metric.upper()), html.Td(round(value, 2))]) for metric, value in zip(
 #       metricas.metric.values, metricas['values'].values)]
+
+cuadro_Issue = html.Div(html.P(
+    [f'We found a Issue at {df.loc[df.precio_bolsa_nacional ==df.precio_bolsa_nacional.max(),"date"]} with a value of {round(df.precio_bolsa_nacional.max(),2)}']
+),
+    style={'height': 100})
 
 r1column_3 = [
     dbc.Table(table_header + table_body, bordered=True,
@@ -182,9 +194,10 @@ r1column_3 = [
               hover=True,
               responsive=True,
               striped=True,
-              style={'height': 300},
+              style={'height': 200},
               size='sm'
-              )
+              ),
+    cuadro_Issue
 
 ]
 
