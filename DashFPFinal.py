@@ -40,7 +40,7 @@ predicCompleta = pd.read_sql('select * from prediccioncompleta', con=connection,
                              parse_dates=['date'])
 
 
-metricas = pd.read_sql('select * from metrics',con=connection)
+metricas = pd.read_sql('select * from metrics', con=connection)
 
 
 ypredicgroupmonth = pd.read_sql(
@@ -150,16 +150,13 @@ r1column_1 = [
 
 r1column_2 = [
     dbc.Card([
-        html.H4("Price", style={'textAlign': 'center'}),
+        html.H4("Price [$COP/KWH]", style={'textAlign': 'center'}),
         html.Hr(style={'background-color': '#ffffff'}),
         html.P(children='Real Value', style={'marginLeft': 20}),
         html.P(id='RealValue', children='', style={'marginLeft': 20}),
         html.Br(),
         html.P(children='Predicted Value', style={'marginLeft': 20}),
         html.P(id='PredValue', children='', style={'marginLeft': 20}),
-        html.Br(),
-        html.P(children='Event Accuracy', style={'marginLeft': 20}),
-        html.P(id='eventAccuracy', children='', style={'marginLeft': 20})
 
     ],
         style={'height': 300})
@@ -171,7 +168,7 @@ table_header = [
 ]
 
 table_body = [html.Tbody(
-    [html.Tr([html.Td(metric.capitalize()), html.Td(round(value, 2))]) for metric, value in zip(
+    [html.Tr([html.Td(metric.upper()), html.Td(round(value, 2))]) for metric, value in zip(
         metricas.metric.values, metricas['values'].values)]
 )]
 
@@ -194,11 +191,15 @@ r1column_4 = [
             html.H4("RESUME", className="card-title",
                     style={'textAlign': 'center', 'marginTop': 20, 'color': 'black'}),
             html.Hr(style={'background-color': '#ffffff'}),
-            html.H6("Card subtitle", className="card-subtitle",
-                    style={'color': 'black', 'marginBottom': 20, 'marginLeft': 5}),
             html.P(
-                "Some quick example text to build on the card title and make "
-                "up the bulk of the card's content.", style={'color': 'black', 'marginLeft': 5}
+                children=[
+                    """ The results were obtained for a training period of 19 years (2000-2019)
+                     with daily data, applying an arimax model with the datetime series and the 
+                     value of the stock price.
+                  """
+                  ],
+
+                style={'color': 'black', 'marginLeft': 5, 'marginTop': 15}
 
             )
         ],
@@ -233,7 +234,7 @@ rve_content = dbc.Card(
 rf1_content = dbc.Card(
     dbc.CardBody(
         [
-            html.P("RF2 Graph", className="card-text"),
+            html.P("Seasonal Behavior", className="card-text"),
             html.Img(src="https://i.ibb.co/yhPn9SF/model-Seasonal.png",
                      alt="model-Seasonal", style={'height': '90%', 'width': '90%', 'marginLeft': 25}),
         ]
@@ -245,7 +246,7 @@ rf1_content = dbc.Card(
 rf2_content = dbc.Card(
     dbc.CardBody(
         [
-            html.P("RF3 Graph", className="card-text"),
+            html.P("Model Diagnostics", className="card-text"),
             html.Img(src="https://i.ibb.co/9H1bdGn/Model-Diagnostics.png",
                      alt="Model-Diagnostics", style={'height': '90%', 'width': '90%', 'marginLeft': 25}),
         ]
@@ -312,7 +313,8 @@ body = dbc.Container(
 
 
 header = dbc.CardHeader(
-    html.H1(children='ENERGY PRICE ANALYSIS')
+    html.H1(
+        children='Time Series Analysis: An application for Colombian Electricity Market')
 )
 
 
@@ -356,4 +358,4 @@ def filter_date(year, month):
 
     # Starting the server
 if __name__ == "__main__":
-    app.run_server(debug=True,host='0.0.0.0')
+    app.run_server(debug=True, host='0.0.0.0')
