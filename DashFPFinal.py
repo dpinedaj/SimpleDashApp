@@ -131,7 +131,7 @@ redespred.add_scatter(x=np.arange(0, 20, 1),
 
 redespred.update_layout(
     title='Model',
-    xaxis_title='Date',
+    xaxis_title='Period',
     yaxis_title='Price',
     template='plotly_dark'
 )
