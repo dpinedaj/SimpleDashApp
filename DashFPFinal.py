@@ -108,7 +108,7 @@ figurepred.add_scatter(x=dfsinpicos.groupby('year', as_index=False).mean()['year
 figurepred.add_scatter(x=predicCompletagroupmonth.groupby('year', as_index=False).mean()['year'],
                        y=predicCompletagroupmonth.groupby('year', as_index=False).mean()[
     'precio'],
-    name='Predicted', mode='lines')
+    name='Forecast', mode='lines')
 
 
 figurepred.update_layout(
@@ -120,13 +120,13 @@ figurepred.update_layout(
 
 
 redespred = go.Figure()
-redespred.add_scatter(x=np.arange(2000, 2020, 1),
+redespred.add_scatter(x=np.arange(0, 20, 1),
                        y=dfredes.test,
                        name='Observed', mode='lines')
 
-redespred.add_scatter(x=np.arange(2000, 2020, 1),
+redespred.add_scatter(x=np.arange(0, 20, 1),
                        y=dfredes.pred,
-                       name='Predicted', mode='lines')
+                       name='Forecast', mode='lines')
 
 
 redespred.update_layout(
