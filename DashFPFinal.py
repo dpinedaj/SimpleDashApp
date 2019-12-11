@@ -178,7 +178,7 @@ r1column_2 = [
 
 
 table_header = [
-    html.Thead(html.Tr([html.Th("Metric"), html.Th("Arima"), html.Th('NN')]),
+    html.Thead(html.Tr([html.Th("Metric"), html.Th("Sarima"), html.Th('NN')]),
     style={'textAlign':'center'})
 ]
 
@@ -218,7 +218,7 @@ r1column_4 = [
             html.P(
                 children=[
                     """ The results were obtained for a training period of 19 years (2000-2019)
-                     with daily data, applying an arimax model with the datetime series and the 
+                     with daily data, comparing a Sarima model with a Neural Network model, using datetime series and the 
                      value of the stock price.
                   """
                 ],
@@ -280,7 +280,7 @@ rf2_content = dbc.Card(
 rf3_content = dbc.Card(
     dbc.CardBody(
         [
-            html.P("Arima Model", className="card-text"),
+            html.P("Sarima Model", className="card-text"),
             dcc.Graph(id='rf3graph',
                       figure=figurepred, style={'margin': 20, 'width': 1000}),
         ]
@@ -304,7 +304,7 @@ tabsgraph = dbc.Tabs(
         dbc.Tab(rve_content, label="DwoP"),
         dbc.Tab(rf1_content, label='SS'),
         dbc.Tab(rf2_content, label='MD'),
-        dbc.Tab(rf3_content, label='Arima'),
+        dbc.Tab(rf3_content, label='Sarima'),
         dbc.Tab(rf4_content, label='NN')
 
     ]
@@ -393,4 +393,4 @@ def filter_date(year, month):
 
     # Starting the server
 if __name__ == "__main__":
-    app.run_server(debug=True, host='0.0.0.0')
+    app.run_server(debug=True, host='0.0.0.0',port='8090')
