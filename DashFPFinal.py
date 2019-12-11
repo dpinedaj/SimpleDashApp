@@ -51,6 +51,8 @@ predicCompletagroupmonth = pd.read_sql(
 
 dfgroupmonth = pd.read_sql('select * from datagroupmonth', con=connection)
 
+dfredes = pd.read_csv('Bolsa_Energ/Redespred.csv')
+
 
 # Gráficas---------------------------------------------
 # ? Gráfica precio por año
@@ -98,25 +100,37 @@ groupwpeaks.add_scatter(x=dfsinpicosaño.year, y=dfsinpicosaño.precio_bolsa_nac
 
 
 figurepred = go.Figure()
-figurepred.add_scatter(x=dfsinpicos.date, y=dfsinpicos.precio_bolsa_nacional,
+figurepred.add_scatter(x=dfsinpicos.groupby('year', as_index=False).mean()['year'],
+                       y=dfsinpicos.groupby('year', as_index=False).mean()[
+    'precio_bolsa_nacional'],
+    name='Observed', mode='lines')
+
+figurepred.add_scatter(x=predicCompletagroupmonth.groupby('year', as_index=False).mean()['year'],
+                       y=predicCompletagroupmonth.groupby('year', as_index=False).mean()[
+    'precio'],
+    name='Predicted', mode='lines')
+
+
+figurepred.update_layout(
+    title='Model',
+    xaxis_title='Date',
+    yaxis_title='Price',
+    template='plotly_dark'
+)
+
+
+redespred = go.Figure()
+redespred.add_scatter(x=np.arange(2000, 2020, 1),
+                       y=dfredes.test,
                        name='Observed', mode='lines')
-figurepred.add_scatter(x=ypredic.date, y=ypredic.precio,
+
+redespred.add_scatter(x=np.arange(2000, 2020, 1),
+                       y=dfredes.pred,
                        name='Predicted', mode='lines')
 
 
-figurepred.add_trace(go.Scatter(x=ypredic.date, y=ypredic.upperprice,
-                                fill='tonexty', mode='none', name='ShadowUp'))
-
-figurepred.add_trace(go.Scatter(x=ypredic.date, y=ypredic.lowerprice,
-                                fill='tonexty', mode='none', name='ShadowLow'))
-
-
-figurepred.add_scatter(x=['2000-01-01', '2029-11-01'],
-                       y=[36.7787870967742, 252.954428],
-                       name='Trend', mode='lines')
-
-figurepred.update_layout(
-    title='Predicted Forecast',
+redespred.update_layout(
+    title='Model',
     xaxis_title='Date',
     yaxis_title='Price',
     template='plotly_dark'
@@ -150,7 +164,7 @@ r1column_1 = [
 
 r1column_2 = [
     dbc.Card([
-        html.H4("Price [COP/KWH]", style={'textAlign': 'center'}),
+        html.H4("Price [COP/KWh]", style={'textAlign': 'center','marginTop':30}),
         html.Hr(style={'background-color': '#ffffff'}),
         html.P(children='Real Value', style={'marginLeft': 20}),
         html.P(id='RealValue', children='', style={'marginLeft': 20}),
@@ -164,21 +178,15 @@ r1column_2 = [
 
 
 table_header = [
-    html.Thead(html.Tr([html.Th("Metric"), html.Th("Value")]))
+    html.Thead(html.Tr([html.Th("Metric"), html.Th("Arima"), html.Th('NN')]),
+    style={'textAlign':'center'})
 ]
 
 table_body = [html.Tbody([
-    html.Tr([html.Th('R2 Score'), html.Th(
-        round(metricas.loc[metricas.metric == 'r2', 'values'].values[0], 2))]),
-    html.Tr([html.Th('RMSE'), html.Th(
-        round(metricas.loc[metricas.metric == 'rmse', 'values'].values[0], 2))]),
-    html.Tr([html.Th('Max'), html.Th(
-        str(round(dfsinpicos.precio_bolsa_nacional.max(), 2)) +' COP/KWh') ]),
-    html.Tr([html.Th('Min'), html.Th(
-        str(round(dfsinpicos.precio_bolsa_nacional.min(), 2)) +' COP/KWh') ])
+    html.Tr([html.Th('MSE'), html.Th(138.46), html.Th(192.65)]),
+    html.Tr([html.Th('RMSE'), html.Th(11.78), html.Th(13.88)])],
+    style={'textAlign':'center'})]
 
-]
-)]
 
 # [html.Tr([html.Td(metric.upper()), html.Td(round(value, 2))]) for metric, value in zip(
 #       metricas.metric.values, metricas['values'].values)]
@@ -272,9 +280,19 @@ rf2_content = dbc.Card(
 rf3_content = dbc.Card(
     dbc.CardBody(
         [
-            html.P("Forecast", className="card-text"),
-            dcc.Graph(id='rf1graph',
+            html.P("Arima Model", className="card-text"),
+            dcc.Graph(id='rf3graph',
                       figure=figurepred, style={'margin': 20, 'width': 1000}),
+        ]
+    ),
+    className="mt-3",
+)
+rf4_content = dbc.Card(
+    dbc.CardBody(
+        [
+            html.P("Neural Network", className="card-text"),
+            dcc.Graph(id='rf4graph',
+                      figure=redespred, style={'margin': 20, 'width': 1000}),
         ]
     ),
     className="mt-3",
@@ -286,7 +304,8 @@ tabsgraph = dbc.Tabs(
         dbc.Tab(rve_content, label="DwoP"),
         dbc.Tab(rf1_content, label='SS'),
         dbc.Tab(rf2_content, label='MD'),
-        dbc.Tab(rf3_content, label='FC')
+        dbc.Tab(rf3_content, label='Arima'),
+        dbc.Tab(rf4_content, label='NN')
 
     ]
 )
@@ -374,4 +393,4 @@ def filter_date(year, month):
 
     # Starting the server
 if __name__ == "__main__":
-    app.run_server(debug=True, host='0.0.0.0')
+    app.run_server(debug=True)#, host='0.0.0.0')
