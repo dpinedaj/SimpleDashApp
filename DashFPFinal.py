@@ -51,7 +51,7 @@ predicCompletagroupmonth = pd.read_sql(
 
 dfgroupmonth = pd.read_sql('select * from datagroupmonth', con=connection)
 
-dfredes = pd.read_csv('Bolsa_Energ/Redespred.csv')
+dfredes = pd.read_csv('Redespred.csv')
 
 
 # Gráficas---------------------------------------------
