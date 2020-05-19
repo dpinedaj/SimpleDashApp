@@ -18,11 +18,11 @@ app = dash.Dash(__name__, external_stylesheets=[dbc.themes.SLATE])
 
 
 connection = psycopg2.connect(
-    host='ds4a.coehqsq1luz4.us-east-1.rds.amazonaws.com',
+    host=""
     port=5432,
     user='postgres',
-    password='clave12345',
-    database='finalproject'
+    password="",
+    database=""
 )
 cursor = connection.cursor()
 
