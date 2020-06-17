@@ -54,8 +54,8 @@ dfgroupmonth = pd.read_sql('select * from datagroupmonth', con=connection)
 dfredes = pd.read_csv('Redespred.csv')
 
 
-# Gráficas---------------------------------------------
-# ? Gráfica precio por año
+# Graphs---------------------------------------------
+# ? price per year graph
 groupfigure = make_subplots(specs=[[{"secondary_y": True}]])
 for año in set(df.year):
     groupfigure.add_scatter(x=df[df.year == año].date, y=df[df.year == año].precio_bolsa_nacional,
@@ -66,7 +66,7 @@ groupfigure.update_layout(
     template='plotly_dark'
 )
 
-# Gráfica promedio precio
+# mean price graph
 dfaño = df.groupby('year', as_index=False).mean()
 
 groupfigure.add_scatter(x=dfaño.year, y=dfaño.precio_bolsa_nacional,
@@ -75,8 +75,7 @@ groupfigure.update_yaxes(title_text="Price", secondary_y=False)
 groupfigure.update_yaxes(title_text="Mean Price", secondary_y=True)
 
 
-# ? Gráfica sin picos
-# Gráfica precio por año
+# price per year graph
 groupwpeaks = make_subplots(specs=[[{"secondary_y": True}]])
 for año in set(dfsinpicos.year):
     groupwpeaks.add_scatter(x=dfsinpicos[dfsinpicos.year == año].date,
@@ -89,14 +88,14 @@ groupwpeaks.update_layout(
     template='plotly_dark'
 )
 
-# Gráfica promedio precio
+# mean price graph
 dfsinpicosaño = dfsinpicos.groupby('year', as_index=False).mean()
 
 groupwpeaks.add_scatter(x=dfsinpicosaño.year, y=dfsinpicosaño.precio_bolsa_nacional,
                         mode='lines+markers', name='Mean Price')
 
 
-# ? Gráfica Prediciión
+# ? Prediction graph
 
 
 figurepred = go.Figure()
